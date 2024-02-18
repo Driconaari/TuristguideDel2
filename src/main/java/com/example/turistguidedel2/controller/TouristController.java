@@ -1,9 +1,9 @@
 package com.example.turistguidedel2.controller;
 
 
-import ch.qos.logback.core.model.Model;
 import com.example.turistguidedel2.model.TouristAttraction;
 import com.example.turistguidedel2.service.TouristService;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,66 +14,85 @@ import java.util.Optional;
 
 @org.springframework.stereotype.Controller
 public class TouristController {
-    
-private final TouristService touristService;
+
+    private final TouristService touristService;
 
 
-public  TouristController(TouristService touristService) {
-    this.touristService = touristService;
-}
+    public TouristController(TouristService touristService) {
+        this.touristService = touristService;
+    }
 
-@GetMapping ("/attractions")
+    @GetMapping("/attractions")
 
     public String getAllAttraction(Model model) {
-    List<TouristAttraction> attractions = touristService.getAllAttractions();
-    model.addAttribute("attractions", attractions);
-    return "attractionList";
-}
-
-@GetMapping("/attractions/{name}/tags")
-    public String getAttractionTags(@PathVariable String name, Model model){
-    Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
-    if(attractionOptional.isPresent()) {
-        TouristAttraction attraction = attractionOptional.get();
-        model.addAttribute("attraction", attraction);
-        return "tags";
-    }else {
-        //if attraction isnt found
-        return "error";
+        List<TouristAttraction> attractions = touristService.getAllAttractions();
+        model.addAttribute("attractions", attractions);
+        return "attractionList";
     }
-}
-@GetMapping("/attractions/add")
+
+    @GetMapping("/attractions/{name}/tags")
+    public String getAttractionTags(@PathVariable String name, Model model) {
+        Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
+        if (attractionOptional.isPresent()) {
+            TouristAttraction attraction = attractionOptional.get();
+            model.addAttribute("attraction", attraction);
+            return "tags";
+        } else {
+            //if attraction isnt found
+            return "error";
+        }
+    }
+/*@GetMapping("/attractions/add")
     public String showAddAttractionForm(Model model) {
     model.addAttribute("attraction",new TouristAttraction());
     return "addAttraction";
 }
 
-@PostMapping("attractions/save")
-    public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
-    touristService.saveAttraction(attraction);
-    return  "redirect:/attractions";
-}
+ */
 
-@GetMapping("/attractions/{name}/edit")
-    public String showEditAttractionForm(@PathVariable String name, Model model) {
-    Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
-    if (attractionOptional.isPresent()){
-        model.addAttribute("attraction", attractionOptional.get());
-        return "editAttraction";
-    }else {
-        return "error";
+    @GetMapping("/")
+    public String showAttractions(Model model) {
+        List<TouristAttraction> attractions = touristService.getAllAttractions();
+        model.addAttribute("attractions", attractions);
+        return "index";
     }
-}
-@PostMapping ("/attractions/update")
-    public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
-    touristService.updateAttraction(attraction);
-    return "redirect:/attractions";
-}
 
-@GetMapping("/attractions/{name}/delete")
+    @GetMapping("/attractions/add")
+    public String showAddAttractionForm(Model model) {
+        // Create a new instance of TouristAttraction with default values
+        TouristAttraction newAttraction = new TouristAttraction("", "", "", List.of(""));
+        model.addAttribute("attraction", newAttraction);
+        return "addAttraction";
+    }
+
+    @PostMapping("attractions/save")
+    public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
+        touristService.saveAttraction(attraction);
+        return  "redirect:/index";
+        //return "redirect:/attractions";
+    }
+
+    @GetMapping("/attractions/{name}/edit")
+    public String showEditAttractionForm(@PathVariable String name, Model model) {
+        Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
+        if (attractionOptional.isPresent()) {
+            model.addAttribute("attraction", attractionOptional.get());
+            return "editAttraction";
+        } else {
+            return "error";
+        }
+    }
+
+    @PostMapping("/attractions/update")
+    public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
+        touristService.updateAttraction(attraction);
+        return "redirect:/attractions";
+    }
+
+    @GetMapping("/attractions/{name}/delete")
     public String deleteAttraaction(@PathVariable String name) {
-    touristService.deletAttractionByName(name);
-    return "redirect:/attractions";
-}
+        touristService.deleteAttractionByName(name);
+        return "redirect:/attractions";
+    }
 
 }

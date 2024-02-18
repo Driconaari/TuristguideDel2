@@ -12,6 +12,15 @@ public class TouristAttraction {
     private List<String> tags;
 
 
+   /* public TouristAttraction() {
+        this.name = name;
+        this.description = description;
+        this.city = city;
+        this.tags = tags;
+    }
+
+    */
+
     public TouristAttraction(String name, String description, String city, List<String> tags) {
         this.name = name;
         this.description = description;
@@ -50,7 +59,6 @@ public class TouristAttraction {
     public List<String> getTags() {
         return tags;
     }
-
 
 
 }

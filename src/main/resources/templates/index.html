@@ -1,28 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Attractions</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist Website</title>
 </head>
 <body>
-<h1>Tourist Attractions:</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="attraction : ${attractions}">
-        <td th:text="${attraction.name}"></td>
-        <td th:text="${attraction.description}"></td>
-        <td>
-            <a th:href="@{'/attractions/' + ${attraction.name}/tags}">Tags</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<a href="#">Add Attraction</a>
+<h1>Welcome to the Tourist Website</h1>
+<h2>Tourist Attractions:</h2>
+<ul>
+    <!-- Use Thymeleaf to loop through the list of tourist attractions -->
+    <li th:each="attraction : ${attractions}">
+        <span th:text="${attraction.name}"></span> - <span th:text="${attraction.description}"></span>
+    </li>
+</ul>
+<ul>
+    <li><a href="/attractions/add">Add Attraction</a></li>
+</ul>
 </body>
 </html>
