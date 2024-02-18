@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,15 +22,12 @@ public class TouristController {
     public TouristController(TouristService touristService) {
         this.touristService = touristService;
     }
-
     @GetMapping("/attractions")
-
     public String getAllAttraction(Model model) {
         List<TouristAttraction> attractions = touristService.getAllAttractions();
         model.addAttribute("attractions", attractions);
         return "attractionList";
     }
-
     @GetMapping("/attractions/{name}/tags")
     public String getAttractionTags(@PathVariable String name, Model model) {
         Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
@@ -49,7 +47,6 @@ public class TouristController {
 }
 
  */
-
     @GetMapping("/")
     public String showAttractions(Model model) {
         List<TouristAttraction> attractions = touristService.getAllAttractions();
@@ -57,7 +54,7 @@ public class TouristController {
         return "index";
     }
 
-    @GetMapping("/attractions/add")
+    /*@GetMapping("/attractions/add")
     public String showAddAttractionForm(Model model) {
         // Create a new instance of TouristAttraction with default values
         TouristAttraction newAttraction = new TouristAttraction("", "", "", List.of(""));
@@ -65,10 +62,12 @@ public class TouristController {
         return "addAttraction";
     }
 
+     */
+
     @PostMapping("attractions/save")
     public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
         touristService.saveAttraction(attraction);
-        return  "redirect:/index";
+        return  "redirect:/";
         //return "redirect:/attractions";
     }
 
@@ -94,5 +93,22 @@ public class TouristController {
         touristService.deleteAttractionByName(name);
         return "redirect:/attractions";
     }
+    @GetMapping("/attractions/add")
+
+    public String showAddAttractionForm(Model model) {
+
+        TouristAttraction newAttraction = new TouristAttraction("", "", "", List.of(""));
+
+        List<String> cities = Arrays.asList("Copenhaged", "Odense", "Aarhus");
+        List<String> tags = Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt");
+
+
+        model.addAttribute("attraction", newAttraction);
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
+
+        return "addAttraction";
+    }
+
 
 }
