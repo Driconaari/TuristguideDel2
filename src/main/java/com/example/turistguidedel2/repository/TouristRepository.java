@@ -15,11 +15,9 @@ public class TouristRepository {
             new TouristAttraction("Dyrehaven", "Naturpark med skovområder", "Kongens Lyngby", List.of("Natur", "Gratis")),
             new TouristAttraction("Tivoli", "Forlystelsespark i København centrum", "København", List.of("Børnevenlig"))
     ));
-
 public List<TouristAttraction> findAll(){
     return attractions;
 }
-
   /* public List<TouristAttraction> getAllAttractions() {
        return attractions;
    }
@@ -31,9 +29,7 @@ public List<TouristAttraction> findAll(){
                .filter(attraction -> attraction.getName().equals(name))
                .findFirst();
    }
-
     */
-
 public void delete (String name) {
     attractions.removeIf(attraction -> attraction.getName().equalsIgnoreCase(name));
 }
@@ -41,12 +37,9 @@ public void delete (String name) {
     public void save(TouristAttraction attraction) {
     attractions.add(attraction);
     }
-
-
     public void add(TouristAttraction attraction){
     attractions.add(attraction);
     }
-
     public Optional<TouristAttraction> findByName(String name) {
         return attractions.stream()
                 .filter(attraction -> attraction.getName().equalsIgnoreCase(name))

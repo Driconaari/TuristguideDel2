@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tourist Attractions</title>
+</head>
+<body>
+<h1>Tourist Attractions</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>City</th>
+        <th>Tags</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over attractions and display them in a table -->
+    <tr th:each="attraction : ${attractions}">
+        <td th:text="${attraction.name}">Name</td>
+        <td th:text="${attraction.description}">Description</td>
+        <td th:text="${attraction.city}">City</td>
+        <td th:text="${attraction.tags}">Tags</td>
+        <td>
+            <!-- Button to delete the attraction -->
+            <form action="/attractions/delete" method="post">
+                <input type="hidden" name="name" th:value="${attraction.name}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

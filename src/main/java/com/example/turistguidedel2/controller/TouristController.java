@@ -4,10 +4,7 @@ package com.example.turistguidedel2.controller;
 import com.example.turistguidedel2.model.TouristAttraction;
 import com.example.turistguidedel2.service.TouristService;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -68,7 +65,7 @@ public class TouristController {
     public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
         touristService.saveAttraction(attraction);
         return  "redirect:/";
-        //return "redirect:/attractions";
+       // return "redirect:/attractions";
     }
 
     @GetMapping("/attractions/{name}/edit")
@@ -99,7 +96,7 @@ public class TouristController {
 
         TouristAttraction newAttraction = new TouristAttraction("", "", "", List.of(""));
 
-        List<String> cities = Arrays.asList("Copenhaged", "Odense", "Aarhus");
+        List<String> cities = Arrays.asList("Copenhagen", "Odense", "Aarhus");
         List<String> tags = Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt");
 
 
@@ -110,5 +107,10 @@ public class TouristController {
         return "addAttraction";
     }
 
+     @DeleteMapping("/attractions/{name}")
+    public String deleteAttractionByName(@PathVariable String name) {
+        touristService.deleteAttractionByName(name);
+        return "Attraction with name " + name + "deleted successfully. ";
+     }
 
 }

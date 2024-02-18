@@ -3,11 +3,11 @@ package com.example.turistguidedel2.model;
 import java.util.List;
 
 public class TouristAttraction {
+    
+
 
     private String name;
-
     private String description;
-
     private String city;
     private List<String> tags;
 
