@@ -2,7 +2,9 @@ package com.example.turistguidedel2.controller;
 
 
 import com.example.turistguidedel2.model.TouristAttraction;
+import com.example.turistguidedel2.repository.TouristRepository;
 import com.example.turistguidedel2.service.TouristService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,14 +12,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.yaml.snakeyaml.tokens.Token.ID.Tag;
+
 @org.springframework.stereotype.Controller
 public class TouristController {
 
     private final TouristService touristService;
 
+    @Autowired
+    private TouristRepository touristRepository;
 
-    public TouristController(TouristService touristService) {
+    private final List<String> cities;
+    private final List<String> tags;
+
+
+    public TouristController(TouristService touristService, List<String> cities) {
         this.touristService = touristService;
+        this.cities = Arrays.asList("Copenhagen", "Odense", "Aarhus", "Helsingør",
+                "Roskilde", "Aalborg", "Esbjerg", "Vejle",
+                "Frederiksberg", "Horsens", "Randers", "Kolding",
+                "Viborg", "Herning", "Silkeborg", "Næstved",
+                "Greve", "Tårnby", "Hillerød", "Holstebro"
+        );
+        this.tags =Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt", "Smukt", "Castle", "Historic", "Royal", "Palace");
+
     }
    /* @GetMapping("/attractions")
     public String getAllAttraction(Model model) {
@@ -46,13 +64,7 @@ public String getAllAttractions(Model model) {
             return "error";
         }
     }
-/*@GetMapping("/attractions/add")
-    public String showAddAttractionForm(Model model) {
-    model.addAttribute("attraction",new TouristAttraction());
-    return "addAttraction";
-}
 
- */
     @GetMapping("/")
     public String showAttractions(Model model) {
         List<TouristAttraction> attractions = touristService.getAllAttractions();
@@ -77,22 +89,14 @@ public String getAllAttractions(Model model) {
        // return "redirect:/attractions";
     }
 
-    @GetMapping("/attractions/{name}/edit")
-    public String showEditAttractionForm(@PathVariable String name, Model model) {
-        Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
-        if (attractionOptional.isPresent()) {
-            model.addAttribute("attraction", attractionOptional.get());
-            return "editAttraction";
-        } else {
-            return "error";
-        }
-    }
-
+/*
     @PostMapping("/attractions/update")
     public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
         touristService.updateAttraction(attraction);
         return "redirect:/attractions";
     }
+
+ */
 
 
     @GetMapping("/attractions/add")
@@ -101,8 +105,13 @@ public String getAllAttractions(Model model) {
 
         TouristAttraction newAttraction = new TouristAttraction("", "", "", List.of(""));
 
-        List<String> cities = Arrays.asList("Copenhagen", "Odense", "Aarhus");
-        List<String> tags = Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt");
+        List<String> cities = Arrays.asList(
+                "Copenhagen", "Odense", "Aarhus", "Helsingør",
+                "Roskilde", "Aalborg", "Esbjerg", "Vejle",
+                "Frederiksberg", "Horsens", "Randers", "Kolding",
+                "Viborg", "Herning", "Silkeborg", "Næstved",
+                "Greve", "Tårnby", "Hillerød", "Holstebro"
+        );        List<String> tags = Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt", "Smukt", "Castle", "Historic", "Royal", "Palace");
 
 
         model.addAttribute("attraction", newAttraction);
@@ -119,24 +128,66 @@ public String getAllAttractions(Model model) {
         touristService.deleteAttractionByName(name);
         //return "Attraction with name " + name + " deleted successfully.";
         return "redirect:/";
-
     }
 
-    /* @DeleteMapping("/attractions/{name}")
-    public String deleteAttractionByName(@PathVariable String name) {
-        touristService.deleteAttractionByName(name);
-        return "Attraction with name " + name + "deleted successfully. ";
-     }
+
+    /*
+        @GetMapping("/attractions/{name}/edit")
+    public String showEditAttractionForm(@PathVariable String name, Model model) {
+        Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
+        if (attractionOptional.isPresent()) {
+            model.addAttribute("attraction", attractionOptional.get());
+            return "editAttraction"; // Assuming "editAttraction" is the name of your Thymeleaf template for editing an attraction
+        } else {
+            // Handle attraction not found
+            return "error";
+        }
+    }
 
      */
 
-  /* @GetMapping("/attractions/{name}/delete")
-    public String deleteAttraaction(@PathVariable String name) {
-        touristService.deleteAttractionByName(name);
-        return "redirect:/attractions";
+   /* @GetMapping("/attractions/edit/{name}")
+    public String showEditAttractionFormByName(@PathVariable String name, Model model) {
+        Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
+        if (attractionOptional.isPresent()) {
+            model.addAttribute("attraction", attractionOptional.get());
+            model.addAttribute("cities", cities); // Use the class-level cities list
+            model.addAttribute("tags", Tag.values());
+            return "editAttraction"; // Assuming "editAttraction" is the name of your Thymeleaf template for editing an attraction
+        } else {
+            // Handle attraction not found
+            return "error";
+        }
     }
 
+    */
 
-   */
+    @GetMapping("/attractions/edit/{name}")
+    public String showEditAttractionFormByName(@PathVariable String name, Model model) {
+        Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
+        if (attractionOptional.isPresent()) {
+            TouristAttraction attraction = attractionOptional.get();
+            model.addAttribute("attraction", attraction);
+            model.addAttribute("cities", cities); // Use the class-level cities list
+            model.addAttribute("tags", tags); // Add the tags list to the model
+            return "editAttraction"; // Assuming "editAttraction" is the name of your Thymeleaf template for editing an attraction
+        } else {
+            // Handle attraction not found
+            return "error";
+        }
+    }
 
+   /* @PostMapping("/attractions/update")
+    public String updateAttraction(@ModelAttribute TouristAttraction attraction) {
+        touristService.updateAttraction(attraction);
+        return "redirect:/attractions"; // Redirect to the attraction list page after updating
+    }
+
+    */
+
+    @PostMapping("/attractions/update")
+    public String updateAttraction(@ModelAttribute TouristAttraction updatedAttraction) {
+        touristRepository.updateTouristAttraction(updatedAttraction);
+        return "redirect:/attractions"; // Redirect to the attraction list page after updating
+    }
 }

@@ -24,6 +24,10 @@
         <td th:text="${attraction.city}">City</td>
         <td th:text="${attraction.tags}">Tags</td>
         <td>
+            <!-- Button to edit the attraction -->
+            <form th:action="@{/attractions/edit/{name}(name=${attraction.name})}" method="get">
+            <button type="submit">Edit</button>
+            </form>
             <!-- Button to delete the attraction -->
             <form th:action="@{'/attractions/' + ${attraction.name} + '/delete'}" method="post">
                 <input type="hidden" name="_method" value="DELETE">
