@@ -30,9 +30,11 @@ public List<TouristAttraction> findAll(){
                .findFirst();
    }
     */
-public void delete (String name) {
+/*public void delete (String name) {
     attractions.removeIf(attraction -> attraction.getName().equalsIgnoreCase(name));
 }
+
+ */
 
     public void save(TouristAttraction attraction) {
     attractions.add(attraction);
@@ -44,5 +46,9 @@ public void delete (String name) {
         return attractions.stream()
                 .filter(attraction -> attraction.getName().equalsIgnoreCase(name))
                 .findFirst();
+    }
+
+    public void deleteAttractionByName(String name) {
+        attractions.removeIf(attraction -> attraction.getName().equals(name));
     }
 }

@@ -39,6 +39,6 @@ public class TouristService {
     }
 
     public void deleteAttractionByName(String name) {
-        touristRepository.delete(name);
+        touristRepository.deleteAttractionByName(name);
     }
 }

@@ -19,12 +19,21 @@ public class TouristController {
     public TouristController(TouristService touristService) {
         this.touristService = touristService;
     }
-    @GetMapping("/attractions")
+   /* @GetMapping("/attractions")
     public String getAllAttraction(Model model) {
         List<TouristAttraction> attractions = touristService.getAllAttractions();
         model.addAttribute("attractions", attractions);
         return "attractionList";
     }
+
+    */
+    @GetMapping("/attractions")
+public String getAllAttractions(Model model) {
+    List<TouristAttraction> attractions = touristService.getAllAttractions();
+    model.addAttribute("attractions", attractions);
+    return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
+}
+
     @GetMapping("/attractions/{name}/tags")
     public String getAttractionTags(@PathVariable String name, Model model) {
         Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
@@ -85,11 +94,7 @@ public class TouristController {
         return "redirect:/attractions";
     }
 
-    @GetMapping("/attractions/{name}/delete")
-    public String deleteAttraaction(@PathVariable String name) {
-        touristService.deleteAttractionByName(name);
-        return "redirect:/attractions";
-    }
+
     @GetMapping("/attractions/add")
 
     public String showAddAttractionForm(Model model) {
@@ -106,11 +111,32 @@ public class TouristController {
 
         return "addAttraction";
     }
+//Delete methods
 
-     @DeleteMapping("/attractions/{name}")
+
+    @DeleteMapping("/attractions/{name}/delete")
+    public String deleteAttraction(@PathVariable String name) {
+        touristService.deleteAttractionByName(name);
+        //return "Attraction with name " + name + " deleted successfully.";
+        return "redirect:/";
+
+    }
+
+    /* @DeleteMapping("/attractions/{name}")
     public String deleteAttractionByName(@PathVariable String name) {
         touristService.deleteAttractionByName(name);
         return "Attraction with name " + name + "deleted successfully. ";
      }
+
+     */
+
+  /* @GetMapping("/attractions/{name}/delete")
+    public String deleteAttraaction(@PathVariable String name) {
+        touristService.deleteAttractionByName(name);
+        return "redirect:/attractions";
+    }
+
+
+   */
 
 }

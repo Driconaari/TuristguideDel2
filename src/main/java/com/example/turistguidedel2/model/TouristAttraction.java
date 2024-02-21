@@ -60,5 +60,4 @@ public class TouristAttraction {
         return tags;
     }
 
-
 }
