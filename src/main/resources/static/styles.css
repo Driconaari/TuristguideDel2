@@ -54,3 +54,9 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.intro-text {
+    max-width: 800px; /* Adjust the max-width to fit your layout */
+    /*margin: 0 auto; /* Center the text horizontally */
+    padding: 20px; /* Add some padding for spacing */
+}
