@@ -4,11 +4,39 @@ import com.example.turistguidedel2.model.TouristAttraction;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class TouristRepository {
+
+
+    private final List<String> cities;
+    private final List<String> tags;
+
+    public TouristRepository(){
+        this.cities = Arrays.asList("Copenhagen", "Odense", "Aarhus", "Helsingør",
+                "Roskilde", "Aalborg", "Esbjerg", "Vejle",
+                "Frederiksberg", "Horsens", "Randers", "Kolding",
+                "Viborg", "Herning", "Silkeborg", "Næstved",
+                "Greve", "Tårnby", "Hillerød", "Holstebro"
+        );
+        this.tags =Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt", "Smukt", "Castle", "Historic", "Royal", "Palace");
+    }
+
+    public List<String> getCities() {
+        return cities;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public List<TouristAttraction> getAttractions() {
+        return attractions;
+    }
+
     private List<TouristAttraction> attractions = new ArrayList<>(List.of(
             new TouristAttraction("Rosenborg Castle", "Historic castle in Copenhagen", "Copenhagen", List.of("Castle", "Historic")),
             new TouristAttraction("Frederiksborg Castle", "Renaissance castle in Hillerød", "Hillerød", List.of("Castle", "Renaissance")),
