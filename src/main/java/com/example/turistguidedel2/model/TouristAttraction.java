@@ -1,35 +1,36 @@
 package com.example.turistguidedel2.model;
 
-import java.util.List;
-
 public class TouristAttraction {
-    
 
 
     private String name;
     private String description;
     private String city;
-    private List<String> tags;
+    private String tags;
+    private int id;
 
+    private String location;
 
-   /* public TouristAttraction() {
+    public TouristAttraction(String name, String description, String city, String tags, int id, String location) {
         this.name = name;
         this.description = description;
         this.city = city;
         this.tags = tags;
+        this.id = id;
+        this.location = location;
     }
 
-    */
 
-    public TouristAttraction(String name, String description, String city, List<String> tags) {
-        this.name = name;
-        this.description = description;
-        this.city = city;
-        this.tags = tags;
+    public int getId() {
+        return id;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setDescription(String description) {
@@ -40,7 +41,7 @@ public class TouristAttraction {
         this.city = city;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 
@@ -56,8 +57,12 @@ public class TouristAttraction {
         return city;
     }
 
-    public List<String> getTags() {
+    public String getTags() {
         return tags;
     }
 
+    public String getLocation() {
+        return location;
+    }
 }
+

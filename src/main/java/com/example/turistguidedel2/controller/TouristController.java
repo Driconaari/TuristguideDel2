@@ -27,16 +27,6 @@ public class TouristController {
 
     public TouristController(TouristService touristService, List<String> cities) {
         this.touristService = touristService;
-       /* this.cities = Arrays.asList("Copenhagen", "Odense", "Aarhus", "Helsingør",
-                "Roskilde", "Aalborg", "Esbjerg", "Vejle",
-                "Frederiksberg", "Horsens", "Randers", "Kolding",
-                "Viborg", "Herning", "Silkeborg", "Næstved",
-                "Greve", "Tårnby", "Hillerød", "Holstebro"
-        );
-        this.tags =Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt", "Smukt", "Castle", "Historic", "Royal", "Palace");
-
-
-        */
     }
 
 
@@ -108,7 +98,7 @@ public class TouristController {
         return "redirect:/";
     }
 
-
+// mappings for hardcoded arraylist
     @GetMapping("/attractions/edit/{name}")
     public String showEditAttractionFormByName(@PathVariable String name, Model model) {
         Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
