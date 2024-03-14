@@ -98,7 +98,7 @@ public class TouristController {
         return "redirect:/";
     }
 
-
+// mappings for hardcoded arraylist
     @GetMapping("/attractions/edit/{name}")
     public String showEditAttractionFormByName(@PathVariable String name, Model model) {
         Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
