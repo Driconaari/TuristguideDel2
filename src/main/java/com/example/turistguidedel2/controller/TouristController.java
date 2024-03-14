@@ -27,16 +27,6 @@ public class TouristController {
 
     public TouristController(TouristService touristService, List<String> cities) {
         this.touristService = touristService;
-       /* this.cities = Arrays.asList("Copenhagen", "Odense", "Aarhus", "Helsingør",
-                "Roskilde", "Aalborg", "Esbjerg", "Vejle",
-                "Frederiksberg", "Horsens", "Randers", "Kolding",
-                "Viborg", "Herning", "Silkeborg", "Næstved",
-                "Greve", "Tårnby", "Hillerød", "Holstebro"
-        );
-        this.tags =Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt", "Smukt", "Castle", "Historic", "Royal", "Palace");
-
-
-        */
     }
 
 
