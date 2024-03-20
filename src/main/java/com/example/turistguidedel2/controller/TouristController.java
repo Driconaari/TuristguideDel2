@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +18,8 @@ public class TouristController {
     private final TouristService touristService;
 
     private TouristRepository touristRepository;
-@Autowired
+
+    @Autowired
     public TouristController(TouristService touristService, TouristRepository touristRepository) {
         this.touristService = touristService;
         this.touristRepository = touristRepository;
@@ -27,14 +27,6 @@ public class TouristController {
 
     public TouristController(TouristService touristService, List<String> cities) {
         this.touristService = touristService;
-    }
-
-
-    @GetMapping("/attractions")
-    public String getAllAttractions(Model model) {
-        List<TouristAttraction> attractions = touristService.getAllAttractions();
-        model.addAttribute("attractions", attractions);
-        return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
     }
 
     @GetMapping("/attractions/{name}/tags")
@@ -45,17 +37,44 @@ public class TouristController {
             model.addAttribute("attraction", attraction);
             return "tags";
         } else {
-            //if attraction isnt found
+            //if attraction isn't found
             return "error";
         }
     }
 
+    //show attractions, I save the old version
+    @GetMapping("/")
+    public String showHomePage(Model model) {
+        List<TouristAttraction> attractions = touristService.getAllAttractions();
+        model.addAttribute("attractions", attractions);
+        return "index"; // Assuming "index" is the name of your Thymeleaf template for the homepage
+    }
+
+    @GetMapping("/attractions")
+    public String getAllAttractions(Model model) {
+        List<TouristAttraction> attractions = touristService.getAllAttractions();
+        model.addAttribute("attractions", attractions);
+        return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
+    }
+    /*
+//old method
+    @GetMapping("/attractions")
+    public String getAllAttractions(Model model) {
+        List<TouristAttraction> attractions = touristService.getAllAttractions();
+        model.addAttribute("attractions", attractions);
+        return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
+    }
+
+ */
+/*
     @GetMapping("/")
     public String showAttractions(Model model) {
         List<TouristAttraction> attractions = touristService.getAllAttractions();
         model.addAttribute("attractions", attractions);
         return "index";
     }
+
+ */
 
 
     @PostMapping("attractions/save")
@@ -66,6 +85,30 @@ public class TouristController {
     }
 
 
+    @GetMapping("/attractions/add")
+    public String showAddAttractionForm(Model model) {
+        // Create a new empty attraction
+        TouristAttraction newAttraction = new TouristAttraction(0, "", "", "", "", "");
+
+        // Fetch cities from the database
+        List<String> cities = touristRepository.getCities();
+
+        // Fetch all tags from the database
+        List<String> tags = touristRepository.getAllTags();
+
+        // Add the attributes to the model
+        model.addAttribute("attraction", newAttraction);
+        model.addAttribute("cities", cities);
+        model.addAttribute("allTags", tags);
+
+        return "addAttraction";
+    }
+
+
+
+
+
+/*
     @GetMapping("/attractions/add")
 
     public String showAddAttractionForm(Model model) {
@@ -88,6 +131,8 @@ public class TouristController {
 
         return "addAttraction";
     }
+
+ */
 //Delete methods
 
 
@@ -98,7 +143,7 @@ public class TouristController {
         return "redirect:/";
     }
 
-// mappings for hardcoded arraylist
+    // mappings for hardcoded arraylist
     @GetMapping("/attractions/edit/{name}")
     public String showEditAttractionFormByName(@PathVariable String name, Model model) {
         Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
@@ -106,9 +151,15 @@ public class TouristController {
             TouristAttraction attraction = attractionOptional.get();
             model.addAttribute("attraction", attraction);
 
-            // Use the lists from the repository class
+            // Fetch cities from the repository
             List<String> cities = touristRepository.getCities();
-            List<String> tags = touristRepository.getTags();
+
+            // Get the ID of the attraction
+            int attractionId = attraction.getId();
+
+            // Fetch tags for the specific attraction by its ID
+            List<String> tags = touristRepository.getTags(attraction.getId());
+
 
             model.addAttribute("cities", cities);
             model.addAttribute("tags", tags);
@@ -120,6 +171,9 @@ public class TouristController {
         }
     }
 
+
+
+
     @GetMapping("/cities")
     public String showCities(Model model) {
         List<String> cities = touristRepository.getCities();
@@ -127,12 +181,6 @@ public class TouristController {
         return "citiesView";
     }
 
-    @GetMapping("/tags")
-    public String showTags(Model model) {
-        List<String> tags = touristRepository.getTags();
-        model.addAttribute("tags", tags);
-        return "tagsView";
-    }
 
     @PostMapping("/attractions/update")
     public String updateAttraction(@ModelAttribute TouristAttraction updatedAttraction) {
