@@ -1,5 +1,8 @@
 package com.example.turistguidedel2.model;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class TouristAttraction {
 
 
@@ -38,9 +41,11 @@ public class TouristAttraction {
         this.city = city;
     }
 
-    public void setTags(String tags) {
+   /* public void setTags(String tags) {
         this.tags = tags;
     }
+
+    */
 
     public String getName() {
         return name;
@@ -60,6 +65,10 @@ public class TouristAttraction {
 
     public String getLocation() {
         return location;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }
 
