@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,8 +55,29 @@ public class TouristRepository {
         return cities;
     }
 
+/*
+    public String getTags(int attractionId) {
+        List<String> tags = new ArrayList<>();
+        String query = "SELECT tag_name FROM repository.tags WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, attractionId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String tag = resultSet.getString("tags");
+                tags.add(tag);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // Join tags with commas
+        return String.join(", ", tags);
+    }
 
-    public List<String> getTags() {
+
+ */
+    // old method
+    public List<String> getTags(int attractionId) {
         List<String> tags = new ArrayList<>();
         String query = "SELECT DISTINCT tags FROM repository.touristattraction";
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -72,6 +92,10 @@ public class TouristRepository {
         }
         return tags;
     }
+
+
+
+
 
 
     public void updateTouristAttraction(TouristAttraction updatedAttraction) {
@@ -153,7 +177,6 @@ public class TouristRepository {
         }
     }
 
-
     public void deleteAttractionByName(String name) {
         String query = "DELETE FROM repository.touristattraction WHERE name = ?";
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -165,11 +188,24 @@ public class TouristRepository {
         }
     }
 
+    public List<String> getAllTags() {
+        List<String> tags = new ArrayList<>();
+        String query = "SELECT tag_name FROM repository.tags";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                String tag = resultSet.getString("tag_name");
+                tags.add(tag);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tags;
+    }
 }
 
-
 /*
-
     private final List<String> cities;
     private final List<String> tags;
 
