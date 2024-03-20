@@ -11,14 +11,15 @@ public class TouristAttraction {
 
     private String location;
 
-    public TouristAttraction(String name, String description, String city, String tags, int id, String location) {
+    public TouristAttraction(int id, String name, String description, String tags, String location, String city) {
+        this.id = id;
         this.name = name;
         this.description = description;
-        this.city = city;
         this.tags = tags;
-        this.id = id;
         this.location = location;
+        this.city = city;
     }
+
 
 
     public int getId() {
@@ -27,10 +28,6 @@ public class TouristAttraction {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setDescription(String description) {

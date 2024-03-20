@@ -28,7 +28,8 @@ public class TouristRepository {
                     String description = resultSet.getString("description");
                     String city = resultSet.getString("city");
                     String tags = resultSet.getString("tags");
-                    TouristAttraction attraction = new TouristAttraction (name, description, city, tags, id);
+                    String location = resultSet.getString("location");
+                    TouristAttraction attraction = new TouristAttraction (id, name, description, tags, location, city);
                     attractions.add(attraction);
                 }
             }
@@ -82,6 +83,81 @@ public class TouristRepository {
             preparedStatement.setString(4, updatedAttraction.getTags());
             preparedStatement.setString(5, updatedAttraction.getLocation());
             preparedStatement.setInt(6, updatedAttraction.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<TouristAttraction> findAll() {
+        List<TouristAttraction> attractions = new ArrayList<>();
+        String query = "SELECT * FROM repository.touristattraction";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                // Retrieve data from the result set and create TouristAttraction objects
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                String tags = resultSet.getString("tags");
+                String location = resultSet.getString("location");
+                String city = resultSet.getString("city");
+
+                TouristAttraction attraction = new TouristAttraction(id, name, description, tags, location, city);
+                attractions.add(attraction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return attractions;
+    }
+
+
+    public Optional<TouristAttraction> findByName(String name) {
+        String query = "SELECT * FROM repository.touristattraction WHERE name = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, name);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Retrieve data from the result set and create a TouristAttraction object
+                    int id = resultSet.getInt("id");
+                    String description = resultSet.getString("description");
+                    String tags = resultSet.getString("tags");
+                    String location = resultSet.getString("location");
+                    String city = resultSet.getString("city");
+
+                    return Optional.of(new TouristAttraction(id, name, description, tags, location, city));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+
+    public void save(TouristAttraction attraction) {
+        String query = "INSERT INTO repository.touristattraction (name, description, tags, location) VALUES (?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, attraction.getName());
+            preparedStatement.setString(2, attraction.getDescription());
+            preparedStatement.setString(3, attraction.getTags());
+            preparedStatement.setString(4, attraction.getLocation());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void deleteAttractionByName(String name) {
+        String query = "DELETE FROM repository.touristattraction WHERE name = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

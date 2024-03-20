@@ -67,6 +67,24 @@ public class TouristController {
 
 
     @GetMapping("/attractions/add")
+    public String showAddAttractionForm(Model model) {
+        TouristAttraction newAttraction = new TouristAttraction(0, "", "", "", "", "");
+
+        // Fetch cities from the database
+        List<String> cities = touristRepository.getCities(); // Assuming you have a method in your repository to fetch cities
+
+        // Fetch tags from the database
+        List<String> tags = touristRepository.getTags(); // Assuming you have a method in your repository to fetch tags
+
+        model.addAttribute("attraction", newAttraction);
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
+
+        return "addAttraction";
+    }
+
+/*
+    @GetMapping("/attractions/add")
 
     public String showAddAttractionForm(Model model) {
 
@@ -88,6 +106,8 @@ public class TouristController {
 
         return "addAttraction";
     }
+
+ */
 //Delete methods
 
 
