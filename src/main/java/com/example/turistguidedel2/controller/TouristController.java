@@ -29,14 +29,6 @@ public class TouristController {
         this.touristService = touristService;
     }
 
-
-    @GetMapping("/attractions")
-    public String getAllAttractions(Model model) {
-        List<TouristAttraction> attractions = touristService.getAllAttractions();
-        model.addAttribute("attractions", attractions);
-        return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
-    }
-
     @GetMapping("/attractions/{name}/tags")
     public String getAttractionTags(@PathVariable String name, Model model) {
         Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
@@ -45,17 +37,42 @@ public class TouristController {
             model.addAttribute("attraction", attraction);
             return "tags";
         } else {
-            //if attraction isnt found
+            //if attraction isn't found
             return "error";
         }
     }
+//show attractions, I save the old version
+@GetMapping("/")
+public String showHomePage(Model model) {
+    List<TouristAttraction> attractions = touristService.getAllAttractions();
+    model.addAttribute("attractions", attractions);
+    return "index"; // Assuming "index" is the name of your Thymeleaf template for the homepage
+}
+    @GetMapping("/attractions/all")
+    public String getAllAttractions(Model model) {
+        List<TouristAttraction> attractions = touristService.getAllAttractions();
+        model.addAttribute("attractions", attractions);
+        return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
+    }
+    /*
+//old method
+    @GetMapping("/attractions")
+    public String getAllAttractions(Model model) {
+        List<TouristAttraction> attractions = touristService.getAllAttractions();
+        model.addAttribute("attractions", attractions);
+        return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
+    }
 
+ */
+/*
     @GetMapping("/")
     public String showAttractions(Model model) {
         List<TouristAttraction> attractions = touristService.getAllAttractions();
         model.addAttribute("attractions", attractions);
         return "index";
     }
+
+ */
 
 
     @PostMapping("attractions/save")

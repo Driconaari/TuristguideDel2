@@ -12,7 +12,8 @@ import java.util.Optional;
 @Repository
 public class TouristRepository {
 
-    private static final String URL = "jdbc:mysql://touristguideasger.mysql.database.azure.com";
+    private static final String URL = "jdbc:mysql://touristguideasger.mysql.database.azure.com:3306/repository?sslMode=required";
+
     private static final String USERNAME = "asger";
     private static final String PASSWORD = "Bob1234avb";
 
