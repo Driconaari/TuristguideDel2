@@ -15,7 +15,7 @@ public class TouristRepository {
 
     private static final String USERNAME = "asger";
     private static final String PASSWORD = "Bob1234avb";
-
+/*
     public List<TouristAttraction> findAllAttractions() {
         List<TouristAttraction> attractions = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
@@ -29,7 +29,7 @@ public class TouristRepository {
                     String city = resultSet.getString("city");
                     String tags = resultSet.getString("tags");
                     String location = resultSet.getString("location");
-                    TouristAttraction attraction = new TouristAttraction (id, name, description, tags, location, city);
+                    TouristAttraction attraction = new TouristAttraction(id, name, description, tags, location, city);
                     attractions.add(attraction);
                 }
             }
@@ -38,6 +38,8 @@ public class TouristRepository {
         }
         return attractions;
     }
+
+ */
 
     public List<String> getCities() {
         List<String> cities = new ArrayList<>();
@@ -55,36 +57,14 @@ public class TouristRepository {
         return cities;
     }
 
-/*
-    public String getTags(int attractionId) {
-        List<String> tags = new ArrayList<>();
-        String query = "SELECT tag_name FROM repository.tags WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, attractionId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                String tag = resultSet.getString("tags");
-                tags.add(tag);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        // Join tags with commas
-        return String.join(", ", tags);
-    }
-
-
- */
-    // old method
     public List<String> getTags(int attractionId) {
         List<String> tags = new ArrayList<>();
-        String query = "SELECT DISTINCT tags FROM repository.touristattraction";
+        String query = "SELECT DISTINCT tag_name FROM repository.tags";
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
-                String tag = resultSet.getString("tags");
+                String tag = resultSet.getString("tag_name");
                 tags.add(tag);
             }
         } catch (SQLException e) {
@@ -94,10 +74,6 @@ public class TouristRepository {
     }
 
 
-
-
-
-
     public void updateTouristAttraction(TouristAttraction updatedAttraction) {
         String query = "UPDATE repository.touristattraction SET name = ?, description = ?, city = ?, tags = ?, location = ? WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -105,7 +81,11 @@ public class TouristRepository {
             preparedStatement.setString(1, updatedAttraction.getName());
             preparedStatement.setString(2, updatedAttraction.getDescription());
             preparedStatement.setString(3, updatedAttraction.getCity());
-            preparedStatement.setString(4, updatedAttraction.getTags());
+
+            // Convert the list of tags to a single string separated by commas
+            String tagsAsString = String.join(",", updatedAttraction.getTags());
+            preparedStatement.setString(4, tagsAsString);
+
             preparedStatement.setString(5, updatedAttraction.getLocation());
             preparedStatement.setInt(6, updatedAttraction.getId());
             preparedStatement.executeUpdate();
@@ -113,6 +93,7 @@ public class TouristRepository {
             e.printStackTrace();
         }
     }
+
 
     public List<TouristAttraction> findAll() {
         List<TouristAttraction> attractions = new ArrayList<>();
@@ -169,13 +150,21 @@ public class TouristRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, attraction.getName());
             preparedStatement.setString(2, attraction.getDescription());
-            preparedStatement.setString(3, attraction.getTags());
+
+            // Convert tags collection to a comma-separated string
+            String tagsAsString = String.join(",", attraction.getTags());
+            preparedStatement.setString(3, tagsAsString);
+
             preparedStatement.setString(4, attraction.getLocation());
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            // Handle or log the exception appropriately
             e.printStackTrace();
         }
     }
+
+
 
     public void deleteAttractionByName(String name) {
         String query = "DELETE FROM repository.touristattraction WHERE name = ?";
@@ -190,20 +179,43 @@ public class TouristRepository {
 
     public List<String> getAllTags() {
         List<String> tags = new ArrayList<>();
-        String query = "SELECT tag_name FROM repository.tags";
+        String query = "SELECT DISTINCT tag_name FROM repository.tags";
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-            while (resultSet.next()) {
-                String tag = resultSet.getString("tag_name");
-                tags.add(tag);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String tag = resultSet.getString("tag_name");
+                    tags.add(tag);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return tags;
     }
+
 }
+
+    /*
+        public List<String> getAllTags() {
+            List<String> tags = new ArrayList<>();
+            String query = "SELECT tag_name FROM repository.tags";
+            try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                 Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(query)) {
+                while (resultSet.next()) {
+                    String tag = resultSet.getString("tag_name");
+                    tags.add(tag);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return tags;
+        }
+    }
+
+     */
+
 
 /*
     private final List<String> cities;

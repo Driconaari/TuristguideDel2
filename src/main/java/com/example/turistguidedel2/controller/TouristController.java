@@ -42,7 +42,7 @@ public class TouristController {
         }
     }
 
-    //show attractions, I save the old version
+    //show attractions, I saved the old version
     @GetMapping("/")
     public String showHomePage(Model model) {
         List<TouristAttraction> attractions = touristService.getAllAttractions();
@@ -77,11 +77,10 @@ public class TouristController {
  */
 
 
-    @PostMapping("attractions/save")
+    @PostMapping("/attractions/save")
     public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
         touristService.saveAttraction(attraction);
-        return "redirect:/";
-        // return "redirect:/attractions";
+        return "redirect:/index";
     }
 
 
@@ -99,51 +98,13 @@ public class TouristController {
         // Add the attributes to the model
         model.addAttribute("attraction", newAttraction);
         model.addAttribute("cities", cities);
-        model.addAttribute("allTags", tags);
+        model.addAttribute("tags", tags); // Add tags to the model
 
         return "addAttraction";
     }
 
 
 
-
-
-/*
-    @GetMapping("/attractions/add")
-
-    public String showAddAttractionForm(Model model) {
-
-        TouristAttraction newAttraction = new TouristAttraction("", "", "", List.of(""));
-
-        List<String> cities = Arrays.asList(
-                "Copenhagen", "Odense", "Aarhus", "Helsingør",
-                "Roskilde", "Aalborg", "Esbjerg", "Vejle",
-                "Frederiksberg", "Horsens", "Randers", "Kolding",
-                "Viborg", "Herning", "Silkeborg", "Næstved",
-                "Greve", "Tårnby", "Hillerød", "Holstebro"
-        );
-        List<String> tags = Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt", "Smukt", "Castle", "Historic", "Royal", "Palace");
-
-
-        model.addAttribute("attraction", newAttraction);
-        model.addAttribute("cities", cities);
-        model.addAttribute("tags", tags);
-
-        return "addAttraction";
-    }
-
- */
-//Delete methods
-
-
-    @DeleteMapping("/attractions/{name}/delete")
-    public String deleteAttraction(@PathVariable String name) {
-        touristService.deleteAttractionByName(name);
-        //return "Attraction with name " + name + " deleted successfully.";
-        return "redirect:/";
-    }
-
-    // mappings for hardcoded arraylist
     @GetMapping("/attractions/edit/{name}")
     public String showEditAttractionFormByName(@PathVariable String name, Model model) {
         Optional<TouristAttraction> attractionOptional = touristService.getAttractionByName(name);
@@ -172,6 +133,12 @@ public class TouristController {
     }
 
 
+    @DeleteMapping("/attractions/{name}/delete")
+    public String deleteAttraction(@PathVariable String name) {
+        touristService.deleteAttractionByName(name);
+        //return "Attraction with name " + name + " deleted successfully.";
+        return "redirect:/";
+    }
 
 
     @GetMapping("/cities")
@@ -187,5 +154,32 @@ public class TouristController {
         touristRepository.updateTouristAttraction(updatedAttraction);
         return "redirect:/attractions"; // Redirect to the attraction list page after updating
     }
+
+    /*
+    @GetMapping("/attractions/add")
+
+    public String showAddAttractionForm(Model model) {
+
+        TouristAttraction newAttraction = new TouristAttraction("", "", "", List.of(""));
+
+        List<String> cities = Arrays.asList(
+                "Copenhagen", "Odense", "Aarhus", "Helsingør",
+                "Roskilde", "Aalborg", "Esbjerg", "Vejle",
+                "Frederiksberg", "Horsens", "Randers", "Kolding",
+                "Viborg", "Herning", "Silkeborg", "Næstved",
+                "Greve", "Tårnby", "Hillerød", "Holstebro"
+        );
+        List<String> tags = Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt", "Smukt", "Castle", "Historic", "Royal", "Palace");
+
+
+        model.addAttribute("attraction", newAttraction);
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
+
+        return "addAttraction";
+    }
+
+ */
+//Delete methods
 
 }
