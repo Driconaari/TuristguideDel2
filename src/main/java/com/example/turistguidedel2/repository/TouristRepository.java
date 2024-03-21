@@ -150,13 +150,21 @@ public class TouristRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, attraction.getName());
             preparedStatement.setString(2, attraction.getDescription());
-            preparedStatement.setString(3, attraction.getTags());
+
+            // Convert tags collection to a comma-separated string
+            String tagsAsString = String.join(",", attraction.getTags());
+            preparedStatement.setString(3, tagsAsString);
+
             preparedStatement.setString(4, attraction.getLocation());
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            // Handle or log the exception appropriately
             e.printStackTrace();
         }
     }
+
+
 
     public void deleteAttractionByName(String name) {
         String query = "DELETE FROM repository.touristattraction WHERE name = ?";
@@ -169,7 +177,24 @@ public class TouristRepository {
         }
     }
 
+    public List<String> getAllTags() {
+        List<String> tags = new ArrayList<>();
+        String query = "SELECT DISTINCT tag_name FROM repository.tags";
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String tag = resultSet.getString("tag_name");
+                    tags.add(tag);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tags;
+    }
 
+}
 
     /*
         public List<String> getAllTags() {
@@ -190,24 +215,7 @@ public class TouristRepository {
     }
 
      */
-    public List<String> getAllTags() {
-        List<String> tags = new ArrayList<>();
-        String query = "SELECT DISTINCT tag_name FROM repository.tags";
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    String tag = resultSet.getString("tag_name");
-                    tags.add(tag);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return tags;
-    }
 
-}
 
 /*
     private final List<String> cities;

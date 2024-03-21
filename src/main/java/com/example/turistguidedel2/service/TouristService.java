@@ -19,7 +19,6 @@ public class TouristService {
     }
 
 
-
     public List<TouristAttraction> getAllAttractions() {
         return touristRepository.findAll();
     }
@@ -32,10 +31,11 @@ public class TouristService {
         touristRepository.save(attraction);
     }
 
-/*public void updateAttraction(TouristAttraction attraction) {
+public void updateAttraction(TouristAttraction attraction) {
         touristRepository.save(attraction);
     }
- */ 
+
+    /*
 public void updateAttraction(TouristAttraction updatedAttraction) {
     Optional<TouristAttraction> existingAttractionOptional = touristRepository.findByName(updatedAttraction.getName());
     if (existingAttractionOptional.isPresent()) {
@@ -52,6 +52,8 @@ public void updateAttraction(TouristAttraction updatedAttraction) {
     }
 }
 
+
+     */
     public void addTouristAttraction(TouristAttraction attraction) {
         touristRepository.save(attraction);
     }
