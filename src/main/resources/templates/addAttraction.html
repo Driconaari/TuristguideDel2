@@ -18,21 +18,14 @@
         <label for="description">Description:</label>
         <textarea id="description" name="description" class="form-control" th:text="${attraction.description}"></textarea>
     </div>
-
     <div class="form-group">
         <label for="city">City:</label>
-        <select id="city" th:field="*{cities}" class="form-control">
-            <option th:each="city : ${cities}" th:value="${city}" th:text="${city}">City</option>
-        </select>
+        <input type="text" id="city" name="city" class="form-control" th:value="${attraction.city}">
     </div>
-
-
-
     <div class="form-group">
         <label for="location">Location:</label>
         <input type="text" id="location" name="location" class="form-control" th:value="${attraction.location}">
     </div>
-    <!-- Tags selection -->
     <!-- Tags selection -->
     <div class="form-group">
         <label for="tags">Tags:</label>
@@ -42,10 +35,12 @@
     </div>
 
     <!-- Input field for adding new tags -->
-    <input type="text" id="newTag" name="newTag" class="form-control" placeholder="Add new tag">
+        <input type="text" id="newTag" name="newTag" class="form-control" placeholder="Add new tag">
+    </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
 
 </body>
 </html>

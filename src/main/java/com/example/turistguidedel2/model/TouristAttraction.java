@@ -1,34 +1,19 @@
 package com.example.turistguidedel2.model;
 
+import java.util.Arrays;
+import java.util.Collections;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
-
-
-@Component
-@Primary
 public class TouristAttraction {
 
-    private int id;
+
     private String name;
     private String description;
     private String city;
     private String tags;
+    private int id;
+
     private String location;
 
-    // Constructor for adding attractions without ID
-
-    public TouristAttraction() {
-        this.name = name;
-        this.description = description;
-        this.city = city;
-        this.tags = tags;
-        this.location = location;
-    }
-
-
-    // Constructor for editing attractions with ID
     public TouristAttraction(int id, String name, String description, String tags, String location, String city) {
         this.id = id;
         this.name = name;
@@ -84,14 +69,6 @@ public class TouristAttraction {
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public void setLocation(String defaultLocation) {
-        this.location = defaultLocation;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }
 
