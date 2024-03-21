@@ -1,6 +1,8 @@
 package com.example.turistguidedel2.repository;
 
 import com.example.turistguidedel2.model.TouristAttraction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
