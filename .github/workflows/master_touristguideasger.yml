@@ -6,7 +6,7 @@ name: Build and deploy JAR app to Azure Web App - TouristGuideAsger
 on:
   push:
     branches:
-      - master
+      - Database-implementation-FINISHED
   workflow_dispatch:
 
 jobs:
