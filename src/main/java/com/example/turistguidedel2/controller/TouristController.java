@@ -80,10 +80,78 @@ public class TouristController {
     @PostMapping("/attractions/save")
     public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
         touristService.saveAttraction(attraction);
-        return "redirect:/index";
+        return "redirect:/";
+    }
+
+    //new add attraction
+    @GetMapping("/attractions/add")
+    public String showAddAttractionForm(Model model) {
+        // Create a new empty attraction
+        TouristAttraction newAttraction = new TouristAttraction();
+        newAttraction.setName("Name");
+        newAttraction.setDescription("Description");
+        newAttraction.setCity("City");
+        newAttraction.setTags("Tags");
+        newAttraction.setLocation("Location");
+
+        // Fetch cities from the database
+        List<String> cities = touristRepository.getCities();
+
+        // Fetch all tags from the database using the getAllTags method
+        List<String> tags = touristRepository.getAllTags(); // Ensure this method retrieves all tags correctly
+
+        // Add the attributes to the model
+        model.addAttribute("attraction", newAttraction);
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
+
+        return "addAttraction";
     }
 
 
+    @PostMapping("/attractions/add")
+    public String addAttraction(@ModelAttribute("attraction") TouristAttraction attraction) {
+        // Assuming you have setters in TouristAttraction for all fields
+        // Set other fields as needed before saving
+        attraction.setName("Name");
+        attraction.setDescription("Description");
+        attraction.setCity("City");
+        attraction.setTags("Tags");
+        attraction.setLocation("Location");
+
+        // Now you can save this new attraction using the service layer
+        touristService.saveAttraction(attraction);
+
+        // Redirect to a success page or another appropriate view
+        return "redirect:/attractions";
+    }
+  /*
+    @GetMapping("/attractions/add")
+    public String showAddAttractionForm(Model model) {
+        // Create a new empty attraction
+        TouristAttraction newAttraction = new TouristAttraction();
+
+        // Fetch cities from the database
+        List<String> cities = touristRepository.getCities();
+
+        // Fetch all tags from the database using the getAllTags method
+        List<String> tags = touristRepository.getAllTags(); // Ensure this method retrieves all tags correctly
+
+        // Add the attributes to the model
+        model.addAttribute("attraction", newAttraction);
+        model.addAttribute("cities", cities);
+        model.addAttribute("tags", tags);
+
+        return "addAttraction";
+    }
+
+
+   */
+
+
+//old add attractions
+
+    /*
     @GetMapping("/attractions/add")
     public String showAddAttractionForm(Model model) {
         // Create a new empty attraction
@@ -102,6 +170,8 @@ public class TouristController {
 
         return "addAttraction";
     }
+
+     */
 
 
 

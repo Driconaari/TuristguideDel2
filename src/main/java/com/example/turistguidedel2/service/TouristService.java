@@ -35,26 +35,11 @@ public void updateAttraction(TouristAttraction attraction) {
         touristRepository.save(attraction);
     }
 
-    /*
-public void updateAttraction(TouristAttraction updatedAttraction) {
-    Optional<TouristAttraction> existingAttractionOptional = touristRepository.findByName(updatedAttraction.getName());
-    if (existingAttractionOptional.isPresent()) {
-        TouristAttraction existingAttraction = existingAttractionOptional.get();
-        // Update the existing attraction with new information
-        existingAttraction.setDescription(updatedAttraction.getDescription());
-        existingAttraction.setCity(updatedAttraction.getCity());
-        existingAttraction.setTags(updatedAttraction.getTags());
-        // Save the updated attraction
-        touristRepository.save(existingAttraction);
-    } else {
-        // Handle the case where the attraction to be updated doesn't exist
-        // This could involve throwing an exception or logging an error
-    }
-}
-
-
-     */
     public void addTouristAttraction(TouristAttraction attraction) {
+        // Check if the location is null, and if so, provide a default value
+        if (attraction.getLocation() == null) {
+            attraction.setLocation("Default Location"); // Provide an appropriate default value
+        }
         touristRepository.save(attraction);
     }
 
