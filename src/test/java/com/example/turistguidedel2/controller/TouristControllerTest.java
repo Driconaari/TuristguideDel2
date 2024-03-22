@@ -1,87 +1,46 @@
 package com.example.turistguidedel2.controller;
-/*
+
 import com.example.turistguidedel2.model.TouristAttraction;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.example.turistguidedel2.repository.TouristRepository;
 import com.example.turistguidedel2.service.TouristService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.ui.Model;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
-@WebMvcTest(TouristController.class)
+@ExtendWith(MockitoExtension.class)
 public class TouristControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private TouristService touristService;
 
+    @Mock
+    private TouristRepository touristRepository;
+
     @InjectMocks
-    TouristController touristController;
-
-
-    @Test
-    public void testDeleteAttraction() throws Exception {
-        String attractionName = "AttractionName";
-
-        mockMvc.perform(MockMvcRequestBuilders.delete("/attractions/{name}/delete", attractionName))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/"));
-
-        verify(touristService).deleteAttractionByName(attractionName);
-    }
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
+    private TouristController touristController;
 
     @Test
-    void testGetAllAttractions() throws Exception{
-    }
+    public void testShowHomePage() {
+        // Given
+        List<TouristAttraction> attractions = new ArrayList<>();
+        when(touristService.getAllAttractions()).thenReturn(attractions);
+        Model model = mock(Model.class);
 
-    @Test
-    void getAttractionTags() {
-    }
+        // When
+        String viewName = touristController.showHomePage(model);
 
-    @Test
-    void showAttractions() {
-    }
-
-    @Test
-    void saveAttraction() {
-    }
-
-    @Test
-    void showAddAttractionForm() {
-    }
-    @Test
-    void deleteAttraction() {
-    }
-
-    @Test
-    void showEditAttractionFormByName() {
-    }
-    @Test
-    void updateAttraction() {
+        // Then
+        assertThat(viewName).isEqualTo("index");
+        verify(model).addAttribute(eq("attractions"), anyList());
     }
 }
-
- */

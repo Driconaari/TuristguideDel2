@@ -56,26 +56,6 @@ public class TouristController {
         model.addAttribute("attractions", attractions);
         return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
     }
-    /*
-//old method
-    @GetMapping("/attractions")
-    public String getAllAttractions(Model model) {
-        List<TouristAttraction> attractions = touristService.getAllAttractions();
-        model.addAttribute("attractions", attractions);
-        return "attractionList"; // Assuming "attractionList" is the name of your Thymeleaf template
-    }
-
- */
-/*
-    @GetMapping("/")
-    public String showAttractions(Model model) {
-        List<TouristAttraction> attractions = touristService.getAllAttractions();
-        model.addAttribute("attractions", attractions);
-        return "index";
-    }
-
- */
-
 
     @PostMapping("/attractions/save")
     public String saveAttraction(@ModelAttribute TouristAttraction attraction) {
@@ -125,55 +105,6 @@ public class TouristController {
         // Redirect to a success page or another appropriate view
         return "redirect:/attractions";
     }
-  /*
-    @GetMapping("/attractions/add")
-    public String showAddAttractionForm(Model model) {
-        // Create a new empty attraction
-        TouristAttraction newAttraction = new TouristAttraction();
-
-        // Fetch cities from the database
-        List<String> cities = touristRepository.getCities();
-
-        // Fetch all tags from the database using the getAllTags method
-        List<String> tags = touristRepository.getAllTags(); // Ensure this method retrieves all tags correctly
-
-        // Add the attributes to the model
-        model.addAttribute("attraction", newAttraction);
-        model.addAttribute("cities", cities);
-        model.addAttribute("tags", tags);
-
-        return "addAttraction";
-    }
-
-
-   */
-
-
-//old add attractions
-
-    /*
-    @GetMapping("/attractions/add")
-    public String showAddAttractionForm(Model model) {
-        // Create a new empty attraction
-        TouristAttraction newAttraction = new TouristAttraction(0, "", "", "", "", "");
-
-        // Fetch cities from the database
-        List<String> cities = touristRepository.getCities();
-
-        // Fetch all tags from the database
-        List<String> tags = touristRepository.getAllTags();
-
-        // Add the attributes to the model
-        model.addAttribute("attraction", newAttraction);
-        model.addAttribute("cities", cities);
-        model.addAttribute("tags", tags); // Add tags to the model
-
-        return "addAttraction";
-    }
-
-     */
-
-
 
     @GetMapping("/attractions/edit/{name}")
     public String showEditAttractionFormByName(@PathVariable String name, Model model) {
@@ -225,31 +156,5 @@ public class TouristController {
         return "redirect:/attractions"; // Redirect to the attraction list page after updating
     }
 
-    /*
-    @GetMapping("/attractions/add")
-
-    public String showAddAttractionForm(Model model) {
-
-        TouristAttraction newAttraction = new TouristAttraction("", "", "", List.of(""));
-
-        List<String> cities = Arrays.asList(
-                "Copenhagen", "Odense", "Aarhus", "Helsingør",
-                "Roskilde", "Aalborg", "Esbjerg", "Vejle",
-                "Frederiksberg", "Horsens", "Randers", "Kolding",
-                "Viborg", "Herning", "Silkeborg", "Næstved",
-                "Greve", "Tårnby", "Hillerød", "Holstebro"
-        );
-        List<String> tags = Arrays.asList("Børnevenligt", "Hyggeligt", "Dejligt", "Smukt", "Castle", "Historic", "Royal", "Palace");
-
-
-        model.addAttribute("attraction", newAttraction);
-        model.addAttribute("cities", cities);
-        model.addAttribute("tags", tags);
-
-        return "addAttraction";
-    }
-
- */
-//Delete methods
 
 }
