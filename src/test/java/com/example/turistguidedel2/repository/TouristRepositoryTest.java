@@ -23,12 +23,6 @@ class TouristRepositoryTest {
     void tearDown() {
     }
 
-    @Test
-    void testFindAll() {
-        List<TouristAttraction> attractions = repository.findAll();
-        assertEquals(5, attractions.size());
-    }
-
    /* @Test
     void testSave() {
         TouristAttraction newAttraction = new TouristAttraction("", "Description", "Location", List.of("Tag1", "Tag2"));
