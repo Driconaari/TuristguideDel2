@@ -1,31 +1,47 @@
 package com.example.turistguidedel2.model;
 
-import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
+
+@Component
+@Primary
 public class TouristAttraction {
-    
 
-
+    private int id;
     private String name;
     private String description;
     private String city;
-    private List<String> tags;
+    private String tags;
+    private String location;
 
+    // Constructor for adding attractions without ID
 
-   /* public TouristAttraction() {
+    public TouristAttraction() {
         this.name = name;
         this.description = description;
         this.city = city;
         this.tags = tags;
+        this.location = location;
     }
 
-    */
 
-    public TouristAttraction(String name, String description, String city, List<String> tags) {
+    // Constructor for editing attractions with ID
+    public TouristAttraction(int id, String name, String description, String tags, String location, String city) {
+        this.id = id;
         this.name = name;
         this.description = description;
-        this.city = city;
         this.tags = tags;
+        this.location = location;
+        this.city = city;
+    }
+
+
+
+    public int getId() {
+        return id;
     }
 
     public void setName(String name) {
@@ -40,9 +56,11 @@ public class TouristAttraction {
         this.city = city;
     }
 
-    public void setTags(List<String> tags) {
+   /* public void setTags(String tags) {
         this.tags = tags;
     }
+
+    */
 
     public String getName() {
         return name;
@@ -56,8 +74,24 @@ public class TouristAttraction {
         return city;
     }
 
-    public List<String> getTags() {
+    public String getTags() {
         return tags;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public void setLocation(String defaultLocation) {
+        this.location = defaultLocation;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
+

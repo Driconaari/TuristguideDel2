@@ -13,6 +13,7 @@
         <th>Name</th>
         <th>Description</th>
         <th>City</th>
+        <th>Location</th> <!-- New column for Location -->
         <th>Tags</th>
         <th>Action</th>
     </tr>
@@ -22,11 +23,12 @@
         <td th:text="${attraction.name}">Name</td>
         <td th:text="${attraction.description}">Description</td>
         <td th:text="${attraction.city}">City</td>
+        <td th:text="${attraction.location}">Location</td> <!-- Display Location -->
         <td th:text="${attraction.tags}">Tags</td>
         <td>
             <!-- Button to edit the attraction -->
             <form th:action="@{/attractions/edit/{name}(name=${attraction.name})}" method="get">
-            <button type="submit">Edit</button>
+                <button type="submit">Edit</button>
             </form>
             <!-- Button to delete the attraction -->
             <form th:action="@{'/attractions/' + ${attraction.name} + '/delete'}" method="post">
@@ -39,4 +41,4 @@
 </table>
 </body>
 </html>
-<footer th:include="footer :: footer"></footer>
+<footer th:insert="~{footer :: footer}"></footer>
